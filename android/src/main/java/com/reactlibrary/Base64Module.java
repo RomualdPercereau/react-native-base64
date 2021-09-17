@@ -7,6 +7,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import android.util.Base64;
+import java.nio.charset.StandardCharsets;
 
 public class Base64Module extends ReactContextBaseJavaModule {
     private static final String E_FORMAT_ERROR = "E_FORMAT_ERROR";
@@ -18,22 +19,14 @@ public class Base64Module extends ReactContextBaseJavaModule {
         return "Base64";
     }
     @ReactMethod
-    public String encode(String str) {
-        try {
-            byte[] encodeValue = Base64.encode(str.getBytes(), Base64.DEFAULT);
-            return (encodeValue);
-        } catch (Exception e) {
-            return "Error";
-        }
+    public byte[] encode(String str) {
+        byte[] encodeValue = Base64.encode(str.getBytes(), Base64.DEFAULT);
+        return (encodeValue);
     }
-        @ReactMethod
+    @ReactMethod
     public String decode(String str) {
-        try {
-            byte[] decodeValue = Base64.decode(str, Base64.DEFAULT);
-            return (decodeValue);
-        } catch (Exception e) {
-            return "Error";
-        }
+        byte[] decodeValue = Base64.decode(str, Base64.DEFAULT);
+        String decodeValueString = new String(decodeValue, StandardCharsets.UTF_8);
+        return (decodeValueString);
     }
-
 }
