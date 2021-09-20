@@ -1,4 +1,4 @@
-package com.reactlibrary;
+package com.reactlibrary.base64;
 
 import java.util.Arrays;
 import java.util.Collections;

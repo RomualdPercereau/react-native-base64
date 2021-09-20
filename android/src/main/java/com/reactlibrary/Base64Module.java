@@ -1,4 +1,4 @@
-package com.reactlibrary;
+package com.reactlibrary.base64;
 
 import android.util.Log;
 
