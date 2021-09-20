@@ -7,6 +7,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import android.util.Base64;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 public class Base64Module extends ReactContextBaseJavaModule {
@@ -18,15 +19,21 @@ public class Base64Module extends ReactContextBaseJavaModule {
     public String getName() {
         return "Base64";
     }
-    @ReactMethod
-    public byte[] encode(String str) {
-        byte[] encodeValue = Base64.encode(str.getBytes(), Base64.DEFAULT);
-        return (encodeValue);
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public String encode(String str) {
+        try {
+            return new String(Base64.encode(str.getBytes(), Base64.DEFAULT), "UTF-8");
+        } catch (UnsupportedEncodingException | IllegalArgumentException unused) {
+            return "";
+        }
     }
-    @ReactMethod
+    
+    @ReactMethod(isBlockingSynchronousMethod = true)
     public String decode(String str) {
-        byte[] decodeValue = Base64.decode(str, Base64.DEFAULT);
-        String decodeValueString = new String(decodeValue, StandardCharsets.UTF_8);
-        return (decodeValueString);
+        try {
+            return new String(Base64.decode(str, 0), "UTF-8");
+        } catch (UnsupportedEncodingException | IllegalArgumentException unused) {
+            return "This is not a base64 data";
+        }
     }
 }
